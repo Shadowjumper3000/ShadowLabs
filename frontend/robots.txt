@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and sensitive areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /login/
+Disallow: /signup/
+Disallow: /account/
+Disallow: /checkout/
+
+# Disallow backend APIs
+Disallow: /api/
+
+# Don't allow search engines to crawl files with these extensions
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*.txt$
+
+# Add your sitemap location
+Sitemap: https://yourdomain.com/sitemap.xml
