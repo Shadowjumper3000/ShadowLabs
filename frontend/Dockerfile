@@ -17,6 +17,6 @@ RUN npm install
 # Copy the rest of the application
 COPY . .
 
-EXPOSE 5173
+EXPOSE 40348
 
 CMD ["npm", "run", "dev", "--", "--host"]

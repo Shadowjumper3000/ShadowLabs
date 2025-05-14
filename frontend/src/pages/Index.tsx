@@ -10,8 +10,7 @@ import ContactSection from "@/components/sections/ContactSection";
 
 const Index = () => {
   useEffect(() => {
-    // Update document title
-    document.title = "John Doe | Software Developer";
+    document.title = "David Hoerz | Software Developer";
   }, []);
 
   return (

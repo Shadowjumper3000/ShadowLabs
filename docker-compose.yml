@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    ports:
+      - "40348:8080"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
