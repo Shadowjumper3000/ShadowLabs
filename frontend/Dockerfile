@@ -1,22 +1,13 @@
-FROM node:20-slim
-
+FROM node:20-slim AS builder
 WORKDIR /app
-
-# Install curl
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy package files
 COPY package*.json ./
 COPY bun.lockb ./
-
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application
+RUN npm install --legacy-peer-deps
 COPY . .
+RUN npm run build
 
-EXPOSE 40348
-
-CMD ["npm", "run", "dev", "--", "--host"]
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+COPY --from=builder /app/dist .
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
