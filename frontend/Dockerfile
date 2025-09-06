@@ -1,8 +1,10 @@
+
 FROM node:20-slim AS builder
 WORKDIR /app
-COPY package*.json ./
-COPY bun.lockb ./
+# Install dependencies first for better caching
+COPY package.json package-lock.json bun.lockb ./
 RUN npm install --legacy-peer-deps
+# Copy only source code after dependencies are installed
 COPY . .
 RUN npm run build
 
