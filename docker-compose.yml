@@ -11,8 +11,6 @@ services:
   frontend:
     build:
       context: ./frontend
-    ports:
-      - "80:80"
     networks:
       - proxy
       - internal
