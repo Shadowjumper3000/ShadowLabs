@@ -2,8 +2,8 @@ services:
   backend:
     build:
       context: ./backend
-    ports:
-      - "40348:8080"
+    networks:
+      - internal
     environment:
       - FLASK_ENV=development
       - FLASK_APP=app.py
@@ -13,5 +13,14 @@ services:
       context: ./frontend
     ports:
       - "80:80"
+    networks:
+      - proxy
+      - internal
     environment:
       - NODE_ENV=production
+
+networks:
+  proxy:
+    driver: bridge
+  internal:
+    driver: bridge
