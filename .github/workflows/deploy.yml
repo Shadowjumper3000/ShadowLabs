@@ -24,7 +24,7 @@ jobs:
         run: ssh-keyscan -H ${{ secrets.HETZNER_HOST }} >> ~/.ssh/known_hosts
 
       - name: Rsync files
-        run: rsync -avz --exclude '.git*' --exclude 'node_modules' ./ ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/home/${{ secrets.SERVER_USER }}/ShadowLabs
+        run: rsync -avz --exclude '.git*' --exclude 'node_modules' ./ ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/home/${{ secrets.HETZNER_USER }}/ShadowLabs
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
