@@ -2,9 +2,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Docker: Start Development Environment",
+            "label": "Start Development",
             "type": "shell",
-            "command": "FRONTEND_PORT=8080 BACKEND_PORT=5000 NODE_ENV=development FLASK_DEBUG=1 docker compose up --build",
+            "command": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",
@@ -15,37 +15,6 @@
                 "isDefault": true
             },
             "isBackground": true
-        },
-        {
-            "label": "Docker: Start Production Environment",
-            "type": "shell",
-            "command": "NODE_ENV=production FLASK_DEBUG=0 docker compose up --build",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            },
-            "isBackground": true
-        },
-        {
-            "label": "Docker: Stop Environment",
-            "type": "shell",
-            "command": "docker compose down",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
-        },
-        {
-            "label": "Docker: Clean Environment",
-            "type": "shell",
-            "command": "docker compose down -v --remove-orphans --rmi local",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
         }
     ]
 }
