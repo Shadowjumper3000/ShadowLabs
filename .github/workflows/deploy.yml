@@ -26,20 +26,32 @@ jobs:
           ssh-private-key: ${{ secrets.HETZNER_SSH_KEY }}
       - name: Add server to known_hosts
         run: ssh-keyscan -H ${{ secrets.HETZNER_HOST }} >> ~/.ssh/known_hosts
-      - name: Setup Git repository on server (if not exists)
+      - name: Setup Git repository on server
         run: |
           ssh ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }} "
-            if [ ! -d '/home/${{ secrets.HETZNER_USER }}/ShadowLabs' ]; then
-              mkdir -p /home/${{ secrets.HETZNER_USER }}/ShadowLabs
+            if [ ! -d '/home/${{ secrets.HETZNER_USER }}/ShadowLabs/.git' ]; then
+              echo 'Repository does not exist, creating initial clone...'
+              rm -rf /home/${{ secrets.HETZNER_USER }}/ShadowLabs
+              git clone https://github.com/${{ github.repository }}.git /home/${{ secrets.HETZNER_USER }}/ShadowLabs
               cd /home/${{ secrets.HETZNER_USER }}/ShadowLabs
-              git init
               git config receive.denyCurrentBranch updateInstead
+            else
+              echo 'Repository exists, fetching latest changes...'
+              cd /home/${{ secrets.HETZNER_USER }}/ShadowLabs
+              git fetch --all
+              git reset --hard origin/${{ github.ref_name }}
             fi
           "
-      - name: Push code to server using Git
+      - name: Push code to server using Git (fallback)
         run: |
-          git remote add production ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/home/${{ secrets.HETZNER_USER }}/ShadowLabs || git remote set-url production ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/home/${{ secrets.HETZNER_USER }}/ShadowLabs
-          git push -f production ${{ github.ref_name }}
+          # Only use this as fallback if the above didn't work
+          if ssh ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }} "cd /home/${{ secrets.HETZNER_USER }}/ShadowLabs && git rev-parse --verify HEAD >/dev/null 2>&1"; then
+            echo "Repository is properly set up, skipping push"
+          else
+            echo "Setting up Git remote and pushing..."
+            git remote add production ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/home/${{ secrets.HETZNER_USER }}/ShadowLabs || git remote set-url production ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/home/${{ secrets.HETZNER_USER }}/ShadowLabs
+            git push -f production ${{ github.ref_name }}
+          fi
       - name: Deploy with Docker Compose
         run: |
           ssh ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }} "cd /home/${{ secrets.HETZNER_USER }}/ShadowLabs && docker compose up --build -d"
