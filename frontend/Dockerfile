@@ -25,13 +25,12 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM nginx:alpine as production
-WORKDIR /usr/share/nginx/html
+FROM node:18-alpine as production
+WORKDIR /app
+# Install serve to host the built files
+RUN npm install -g serve
 # Copy the built files from the build stage
-COPY --from=build /app/dist .
-# Copy a custom nginx config if needed
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist ./dist
 EXPOSE 8080
-# Create a simple nginx config to run on port 8080
-RUN echo 'server { listen 8080; location / { root /usr/share/nginx/html; index index.html; try_files $uri $uri/ /index.html; } }' > /etc/nginx/conf.d/default.conf
-CMD ["nginx", "-g", "daemon off;"]
+# Serve the built files on port 8080
+CMD ["serve", "-s", "dist", "-l", "8080"]
