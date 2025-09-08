@@ -23,15 +23,21 @@ jobs:
       - name: Add server to known_hosts
         run: ssh-keyscan -H ${{ secrets.HETZNER_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Rsync files
-        run: rsync -avz --exclude '.git*' --exclude 'node_modules' ./ ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/home/${{ secrets.HETZNER_USER }}/ShadowLabs
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Copy .env file to server
+      - name: Setup Git repository on server (if not exists)
         run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
-          scp .env ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/home/${{ secrets.HETZNER_USER }}/ShadowLabs/.env
+          ssh ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }} "
+            if [ ! -d '/home/${{ secrets.HETZNER_USER }}/ShadowLabs' ]; then
+              mkdir -p /home/${{ secrets.HETZNER_USER }}/ShadowLabs
+              cd /home/${{ secrets.HETZNER_USER }}/ShadowLabs
+              git init
+              git config receive.denyCurrentBranch updateInstead
+            fi
+          "
+
+      - name: Push code to server using Git
+        run: |
+          git remote add production ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/home/${{ secrets.HETZNER_USER }}/ShadowLabs || git remote set-url production ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/home/${{ secrets.HETZNER_USER }}/ShadowLabs
+          git push -f production ${{ github.ref_name }}
 
       - name: Deploy with Docker Compose
         run: |

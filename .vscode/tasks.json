@@ -2,11 +2,39 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Docker: Up Backend & Frontend",
+			"label": "Docker: Up Backend & Frontend (Production)",
 			"type": "shell",
-			"command": "docker compose up --build",
+			"command": "docker network create proxy || true && DEVELOPMENT=false docker compose -f docker-compose.yml -p shadowlabs up --build -d && docker compose logs -f",
 			"group": "build",
-			"isBackground": true
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Docker: Up Backend & Frontend (Development)",
+			"type": "shell",
+			"command": "docker network create proxy || true && DEVELOPMENT=true docker compose -f docker-compose.yml -p shadowlabs up --build -d && docker compose logs -f",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Docker: Down",
+			"type": "shell",
+			"command": "docker compose -p shadowlabs down",
+			"problemMatcher": []
+		},
+		{
+			"label": "Docker: Down (Clean)",
+			"type": "shell",
+			"command": "docker compose -p shadowlabs down -v --remove-orphans --rmi local",
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
 		}
 	]
 }

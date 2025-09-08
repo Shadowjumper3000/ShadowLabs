@@ -5,8 +5,13 @@ services:
     networks:
       - internal
     environment:
-      - FLASK_ENV=development
+      - FLASK_ENV=${DEVELOPMENT:-false}
       - FLASK_APP=app.py
+    ports:
+      - ${DEVELOPMENT:+5000:5000} # Only expose in development mode
+    volumes:
+      - ${DEVELOPMENT:+./backend:/app} # Only mount in development mode
+      - ${DEVELOPMENT:+backend_data:/data} # Persistent data volume for development
 
   frontend:
     build:
@@ -15,10 +20,23 @@ services:
       - proxy
       - internal
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${DEVELOPMENT:-false}
+    ports:
+      - ${DEVELOPMENT:+3000:3000} # Only expose in development mode
+    volumes:
+      - ${DEVELOPMENT:+./frontend:/app} # Only mount in development mode
+      - ${DEVELOPMENT:+/app/node_modules} # Only mount in development mode
+      - ${DEVELOPMENT:+frontend_data:/data} # Persistent data volume for development
 
 networks:
   proxy:
     external: true
   internal:
     driver: bridge
+
+# Named volumes that will be removed when using 'down -v'
+volumes:
+  backend_data:
+    name: shadowlabs_backend_data
+  frontend_data:
+    name: shadowlabs_frontend_data
