@@ -24,7 +24,7 @@ const HeroSection = () => {
             I'm a Machine Learning Engineer and Software Developer specializing in creating impactful, data-driven solutions. Currently, I'm focused on building robust ML models and innovative digital products.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-in" style={{ animationDelay: "0.5s" }}>
-            <Button asChild className="bg-transparent border border-highlight text-highlight hover:bg-highlight/10 rounded font-medium text-base">
+            <Button asChild className="bg-highlight text-navy hover:bg-highlight/90 rounded font-medium text-base">
               <a href="#projects">View My Work</a>
             </Button>
             <Button asChild className="bg-highlight text-navy hover:bg-highlight/90 rounded font-medium text-base">
