@@ -47,18 +47,17 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled
           ? "bg-navy bg-opacity-90 backdrop-blur-sm shadow-md py-4"
           : "bg-transparent py-6"
-      }`}
+        }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <a
           href="#"
           className="text-highlight text-3xl font-mono font-bold focus-ring rounded"
         >
-          P.
+          D.H.
         </a>
 
         {/* Desktop Navigation */}
@@ -76,7 +75,7 @@ const Header = () => {
               </li>
             ))}
             <li>
-              <Button className="border border-highlight text-highlight bg-transparent hover:bg-highlight/10 rounded font-medium">
+              <Button className="bg-highlight text-navy hover:bg-highlight/90 rounded font-medium">
                 Resume
               </Button>
             </li>
@@ -95,9 +94,8 @@ const Header = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 bg-navy-light bg-opacity-95 z-40 md:hidden backdrop-blur-sm transform transition-transform duration-300 ${
-          isMenuOpen ? "translate-x-0" : "translate-x-full"
-        } flex flex-col justify-center items-center`}
+        className={`fixed inset-0 bg-navy-light bg-opacity-95 z-40 md:hidden backdrop-blur-sm transform transition-transform duration-300 ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+          } flex flex-col justify-center items-center`}
       >
         <nav className="w-full">
           <ul className="flex flex-col items-center space-y-8">
@@ -114,8 +112,8 @@ const Header = () => {
               </li>
             ))}
             <li className="w-full text-center pt-4">
-              <Button 
-                className="border border-highlight text-highlight bg-transparent hover:bg-highlight/10 rounded font-medium"
+              <Button
+                className="bg-highlight text-navy hover:bg-highlight/90 rounded font-medium"
                 onClick={closeMenu}
               >
                 Resume
