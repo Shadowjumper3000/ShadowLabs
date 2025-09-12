@@ -7,6 +7,7 @@ services:
     environment:
       - NODE_ENV=production
     networks:
+      - shadowlabs_internal
       - proxy
 
   backend:
@@ -17,8 +18,10 @@ services:
       - FLASK_ENV=production
       - FLASK_DEBUG=0
     networks:
-      - proxy
+      - shadowlabs_internal
 
 networks:
   proxy:
     external: true
+  shadowlabs_internal:
+    driver: bridge
