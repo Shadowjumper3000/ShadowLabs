@@ -1,6 +1,8 @@
 
 import React, { useEffect } from "react";
 import Header from "@/components/Header";
+// If using file-based routing (e.g. with Vite or Next.js), the /projects page will be available automatically.
+// If not, you may need to add a route in your router configuration.
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
