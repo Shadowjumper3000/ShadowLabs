@@ -2,7 +2,7 @@
 services:
   frontend:
     ports:
-      - "3000:8080" # Frontend accessible at localhost:3000
+      - "8080:8080" # Frontend accessible at localhost:3000
     environment:
       - NODE_ENV=development
     volumes:
