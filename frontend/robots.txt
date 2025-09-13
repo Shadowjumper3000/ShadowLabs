@@ -17,5 +17,8 @@ Disallow: /*.json$
 Disallow: /*.xml$
 Disallow: /*.txt$
 
+# Disallow projects directory
+Disallow: /projects
+
 # Add your sitemap location
 Sitemap: https://yourdomain.com/sitemap.xml

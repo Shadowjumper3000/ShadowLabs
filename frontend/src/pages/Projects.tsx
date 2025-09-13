@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { projects } from "@/data/projects";
 import { Card, CardContent } from "@/components/ui/card";
 import { Github, ExternalLink } from "lucide-react";
 
 const ProjectsPage = () => {
+    useEffect(() => {
+        const meta = document.createElement("meta");
+        meta.name = "robots";
+        meta.content = "noindex";
+        document.head.appendChild(meta);
+        return () => {
+            document.head.removeChild(meta);
+        };
+    }, []);
+
     return (
         <section className="py-20 px-4 bg-navy-light min-h-screen">
             <div className="container mx-auto">
