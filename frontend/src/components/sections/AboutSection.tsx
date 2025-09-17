@@ -54,7 +54,7 @@ const AboutSection = () => {
             <div className="absolute inset-0 border-2 border-highlight rounded translate-x-5 translate-y-5"></div>
             <div className="relative w-64 h-64 bg-navy-light rounded overflow-hidden group">
               <img
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&h=600"
+                src="https://media.licdn.com/dms/image/v2/D4E03AQFkdTVikH-k1A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1691931520308?e=1761177600&v=beta&t=DrouU1cKz82lwVEc7yNzQywuMoA-Pb4Ag2ua0qwfoWQ"
                 alt="David Hoerz"
                 className="w-full h-full object-cover grayscale transition group-hover:grayscale-0 group-hover:scale-105"
               />
