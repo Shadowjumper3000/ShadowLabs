@@ -1,8 +1,6 @@
 # Development environment with port mapping and dev configurations
 services:
   frontend:
-    ports:
-      - "8080:8080" # Frontend accessible at localhost:3000
     environment:
       - NODE_ENV=development
     volumes:
@@ -13,8 +11,6 @@ services:
       - proxy
 
   backend:
-    ports:
-      - "5000:5000" # Backend accessible at localhost:5000
     environment:
       - FLASK_ENV=development
       - FLASK_DEBUG=1
